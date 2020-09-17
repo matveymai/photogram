@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<!--suppress ALL -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <form method="post">
+        <input type="text" name="text" placeholder="input your text">
+        <input type="text" name="tag" placeholder="input your tag">
+        <button type="submit">Add new message</button>
+    </form>
+    <br>
+    <div>List of messages</div>
+
+    <form method="post" action="filter">
+        <input type="text" name="tag">
+        <button type="submit">Find by tag</button>
+    </form>
+
+    <div th:each="el : ${messages}">
+        <b th:text="${el.id}"/>
+        <span th:text="${el.text}"/>
+        <i th:text="${el.tag}"/>
+    </div>
+
+</body>
+</html>
