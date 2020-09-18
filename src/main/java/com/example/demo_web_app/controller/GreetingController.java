@@ -25,10 +25,19 @@ public class GreetingController {
     }
 
     @GetMapping("/main")
-    public String main(Model model){
+    public String main(@RequestParam(required = false,defaultValue = "") String tag,
+                       Model model){
 
-        Iterable<Message> messages = messageRepository.findAll();
+        Iterable<Message> messages;
+
+        if (tag != null && !tag.isEmpty()){
+            messages = messageRepository.findByTag(tag);
+        }else {
+            messages = messageRepository.findAll();
+        }
+
         model.addAttribute("messages",messages);
+        model.addAttribute("filter",tag);
         return "main";
     }
 
@@ -41,22 +50,6 @@ public class GreetingController {
         Message message = new Message(text,tag,user);
         messageRepository.save(message);
         Iterable<Message> messages = messageRepository.findAll();
-        model.addAttribute("messages",messages);
-        return "main";
-    }
-
-    @PostMapping("/filter")
-    public String filter(@RequestParam String tag,
-                         Model model){
-
-        Iterable <Message> messages;
-
-        if (tag != null && !tag.isEmpty()){
-            messages = messageRepository.findByTag(tag);
-        }else {
-            messages = messageRepository.findAll();
-        }
-
         model.addAttribute("messages",messages);
         return "main";
     }

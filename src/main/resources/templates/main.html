@@ -21,8 +21,8 @@
 <br>
 <div>List of messages</div>
 
-<form method="post" action="/filter">
-    <input type="text" name="tag">
+<form method="get" action="/main">
+    <input type="text" name="tag" th:value="${filter}">
     <button type="submit">Find by tag</button>
 </form>
 <br>
