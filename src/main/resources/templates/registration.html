@@ -5,13 +5,15 @@
     <title>Spring Security Example </title>
 </head>
 <body>
-<p>Login page</p>
-<form action="/login" method="post">
+<p>Registration page</p>
+<div th:if="${message}">
+    <p th:text="${message}"/>
+</div>
+<form action="/registration" method="post">
     <div><label> User Name: <input type="text" name="username"/> </label></div><br>
     <div><label> Password:   <input type="password" name="password"/> </label></div><br>
-    <div><input type="submit" value="Sign In"/></div>
+    <div><input type="submit" value="Add new user"/></div>
 </form>
-<br>
-<a href="/registration">Add new user</a>
+
 </body>
 </html>
