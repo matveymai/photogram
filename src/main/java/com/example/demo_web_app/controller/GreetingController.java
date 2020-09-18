@@ -17,13 +17,12 @@ public class GreetingController {
     @Autowired
     private MessageRepository messageRepository;
 
-    @GetMapping("/greeting")
+    @GetMapping("/")
     public String greeting(Model model) {
-        model.addAttribute("name", "Matvey");
         return "greeting";
     }
 
-    @GetMapping
+    @GetMapping("/main")
     public String main(Model model){
 
         Iterable<Message> messages = messageRepository.findAll();
@@ -31,7 +30,7 @@ public class GreetingController {
         return "main";
     }
 
-    @PostMapping
+    @PostMapping("/main")
     public String add(@RequestParam String text,
                       @RequestParam String tag,
                       Model model){
@@ -43,7 +42,7 @@ public class GreetingController {
         return "main";
     }
 
-    @PostMapping("filter")
+    @PostMapping("/filter")
     public String filter(@RequestParam String tag,
                          Model model){
 
