@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+@SuppressWarnings("ALL")
 @Data
 @Entity
 @Table(name = "message")

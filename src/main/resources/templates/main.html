@@ -10,7 +10,8 @@
 <div>
     <form action="/logout" method="post">
         <input type="submit" value="Sign Out"/>
-    </form>
+    </form><br>
+    <span><a href="/user">User list</a></span>
 </div>
 <br>
 <form method="post" action="/main">
@@ -30,7 +31,7 @@
     <b th:text="${el.id}"/>
     <span th:text="${el.text}"/>
     <i th:text="${el.tag}"/>
-    <strong th:text="${el.authorName}"/>
+    <strong th:text="${el.author.getUsername()}"/>
 </div>
 
 </body>
