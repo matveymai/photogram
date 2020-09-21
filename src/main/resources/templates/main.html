@@ -4,6 +4,7 @@
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!--    <link rel="stylesheet" href="/static/style.css">-->
 </head>
 <body>
 
@@ -14,9 +15,10 @@
     <span><a href="/user">User list</a></span>
 </div>
 <br>
-<form method="post" action="/main">
+<form method="post" action="/main" enctype="multipart/form-data">
     <input type="text" name="text" placeholder="input your text">
     <input type="text" name="tag" placeholder="input your tag">
+    <input type="file" name="file" >
     <button type="submit">Add new message</button>
 </form>
 <br>
@@ -32,7 +34,9 @@
     <span th:text="${el.text}"/>
     <i th:text="${el.tag}"/>
     <strong th:text="${el.author.getUsername()}"/>
+    <div th:if="${el.filename}">
+        <img th:src="'/img/' + ${el.filename}" height="150" width="150">
+    </div>
 </div>
-
 </body>
 </html>
