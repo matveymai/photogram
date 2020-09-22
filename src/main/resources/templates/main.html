@@ -7,42 +7,58 @@
 <header th:insert="blocks/navbar :: navbar"></header>
 <div class="container mt-5">
 
-<div>
-    <form action="/logout" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <form action="/main" method="get" class="form-inline">
+                <input type="text" name="tag" class="form-control" th:value="${filter}" placeholder="Search by tag">
+                <button type="submit" class="btn btn-primary ml-2">Search</button>
+            </form>
+        </div>
+    </div>
+    <br>
+
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        New message
+    </a>
+<div class="collapse" id="collapseExample">
+    <div class="form-group mt-3">
+        <form method="post" action="/main" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="text" class="form-control" name="text" placeholder="Input your text">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="tag" placeholder="Input your tag">
+            </div>
+            <div class="form-group">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="customFile" name="file">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+            </div>
+            <div class="form-group">
+                 <button type="submit" class="btn btn-primary">Add message</button>
+            </div>
+        </form>
+    </div>
 </div>
 <br>
-<form method="post" action="/main" enctype="multipart/form-data">
-    <input type="text" name="text" placeholder="input your text">
-    <input type="text" name="tag" placeholder="input your tag">
-    <input type="file" name="file" >
-    <button type="submit">Add new message</button>
-</form>
 <br>
 
-<!--    Logged user: <span sec:authentication="name">Bob</span><br>-->
-<!--    Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span><br><br>-->
-
-    <div>List of messages</div>
-
-<form method="get" action="/main">
-    <input type="text" name="tag" th:value="${filter}">
-    <button type="submit">Find by tag</button>
-</form>
-<br>
-<div th:each="el : ${messages}">
-    <b th:text="${el.id}"/>
-    <span th:text="${el.text}"/>
-    <i th:text="${el.tag}"/>
-    <strong th:text="${el.author.getUsername()}"/>
-    <div th:if="${el.filename}">
-        <img th:src="'/img/' + ${el.filename}" height="150" width="150">
+<div class="card-columns">
+    <div th:each="el : ${messages}" class="card my-3">
+        <div th:if="${el.filename}">
+            <img class="card-img-top" th:src="'/img/' + ${el.filename}">
+        </div>
+        <div class="m-2">
+            <span th:text="${el.text}"/>
+            <i th:text="${el.tag}"/>
+        </div>
+        <div class="card-footer text-muted">
+            <p th:text="${el.author.getUsername()}"/>
+        </div>
     </div>
 </div>
 
-
-</div>
 <div th:insert="blocks/bottom :: scripts"></div>
 </body>
 </html>
