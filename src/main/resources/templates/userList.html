@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:th="http://www.thymeleaf.org">
+<div th:insert="blocks/head :: head"></div>
 <body>
+<header th:insert="blocks/navbar :: navbar"></header>
+<div class="container mt-5">
+
 
 <table>
     <thead>
@@ -25,5 +26,8 @@
     <form action="/main">
         <button type="submit">Back</button>
     </form>
+
+</div>
+<div th:insert="blocks/bottom :: scripts"></div>
 </body>
 </html>

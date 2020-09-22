@@ -1,11 +1,18 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<!--xmlns:sec="http://www.springframework.org/security/tags"-->
+<!--xmlns:sec="http://www.w3.org/1999/xhtml"-->
+<div th:insert="blocks/head :: head"></div>
 <body>
-    <h2>Hello User!</h2>
-<a href="/main">Main page</a>
+<header th:insert="blocks/navbar :: navbar"></header>
+<div class="container mt-5">
+
+    <h4>Hello, quest</h4>
+    <div>This is a simple clone of Twitter</div>
+
+</div>
+<div th:insert="blocks/bottom :: scripts"></div>
 </body>
 </html>
