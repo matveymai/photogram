@@ -25,9 +25,6 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private DataSource dataSource;
-
-    @Autowired
     private UserService userService;
 
     @Override
@@ -35,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/","/registration","/static/**")
+                .antMatchers("/","/registration","/static/**","/activate/*")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
