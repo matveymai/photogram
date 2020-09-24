@@ -39,7 +39,7 @@ public class RegistrationController {
         System.out.println(isActivated);
 
         if (isActivated){
-            model.addAttribute("message","User successfully activated");
+            model.addAttribute("message","Email successfully activated");
         }else {
             model.addAttribute("message","Activation code is not found");
         }
