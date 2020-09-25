@@ -8,6 +8,11 @@
 
     <h4 th:text="${message}"></h4>
 
+    <div class="alert alert-danger" role="alert"
+             th:if="${session} and ${session.SPRING_SECURITY_LAST_EXCEPTION}">
+            Bad credentials!
+    </div>
+
 <form action="/login" method="post">
     <div class="form-group row">
         <label class="col-sm-2 col-form-label"> User Name: </label>

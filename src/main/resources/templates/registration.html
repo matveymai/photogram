@@ -6,27 +6,49 @@
 <header th:insert="blocks/navbar :: navbar"></header>
 <div class="container mt-5">
 
-<div th:if="${message}">
-    <p th:text="${message}"/>
+<div th:if="${existError}">
+    <h4 th:text="${existError}"></h4>
 </div>
 
 <form action="/registration" method="post">
     <div class="form-group row">
         <label class="col-sm-2 col-form-label"> User Name: </label>
         <div class="col-sm-4">
-            <input type="text" class="form-control" name="username" placeholder="username"/>
+            <input type="text" th:class="'form-control ' + ${usernameError!=null?'is-invalid':''}"
+                   name="username" placeholder="username" th:value ="${user!=null}?${user.username}"/>
+            <div class="invalid-feedback" th:if="${usernameError}" th:text="${usernameError}">
+                Please provide a valid username.
+            </div>
         </div>
     </div>
     <div class="form-group row">
         <label  class="col-sm-2 col-form-label"> Password:  </label>
         <div class="col-sm-4">
-            <input type="password" class="form-control" name="password" placeholder="password"/>
+            <input type="password" th:class="'form-control ' + ${passwordError!=null?'is-invalid':''}"
+                   name="password" placeholder="password"/>
+            <div class="invalid-feedback" th:if="${passwordError}" th:text="${passwordError}">
+                Please provide a valid password.
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label  class="col-sm-2 col-form-label"> Retype password:  </label>
+        <div class="col-sm-4">
+            <input type="password" th:class="'form-control ' + ${password2Error!=null?'is-invalid':''}"
+                   name="password2" placeholder="password"/>
+            <div class="invalid-feedback" th:if="${password2Error}" th:text="${password2Error}">
+                Please provide a valid password.
+            </div>
         </div>
     </div>
     <div class="form-group row">
         <label  class="col-sm-2 col-form-label"> Email:  </label>
         <div class="col-sm-4">
-            <input type="email" class="form-control" name="email" placeholder="some@some.com"/>
+            <input type="email" th:class="'form-control ' + ${emailError!=null?'is-invalid':''}"
+                   name="email" placeholder="some@some.com" th:value ="${user!=null}?${user.email}"/>
+            <div class="invalid-feedback" th:if="${emailError}" th:text="${emailError}">
+                Please provide a valid email.
+            </div>
         </div>
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
