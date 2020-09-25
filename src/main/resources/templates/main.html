@@ -20,20 +20,33 @@
     <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
         New message
     </a>
-<div class="collapse" id="collapseExample">
+
+<div th:class="'collapse' + ${message!=null? 'show':''}" id="collapseExample">
     <div class="form-group mt-3">
         <form method="post" action="/main" enctype="multipart/form-data">
             <div class="form-group">
-                <input type="text" class="form-control" name="text" placeholder="Input your text">
+                <input type="text" th:class="'form-control ' + ${textError!=null?'is-invalid':''}"
+                       name="text" placeholder="Input your text" th:value ="${message!=null}?${message.text}">
+                <div class="invalid-feedback" th:if="${textError}" th:text="${textError}">
+                    Please provide a valid text.
+                </div>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="tag" placeholder="Input your tag">
+                <input type="text" th:class="'form-control ' + ${tagError!=null?'is-invalid':''}"
+                       name="tag" placeholder="Input your tag" th:value ="${message!=null}?${message.tag}">
+                <div class="invalid-feedback" th:if="${tagError}" th:text="${tagError}">
+                    Please provide a valid tag.
+                </div>
             </div>
             <div class="form-group">
-            <div class="custom-file">
-                <input type="file" class="custom-file-input " id="customFile" name="file">
-                <label class="custom-file-label text-muted" for="customFile">Choose file</label>
-            </div>
+                <div class="custom-file">
+                    <input type="file" th:class="'custom-file-input ' + ${fileNotFound!=null?'is-invalid':''}"
+                           id="customFile" name="file">
+                    <label class="custom-file-label text-muted" for="customFile">Choose file</label>
+                    <div class="invalid-feedback" th:if="${fileNotFound}" th:text="${fileNotFound}">
+                        Please choose the file.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                  <button type="submit" class="btn btn-primary">Add message</button>
@@ -59,6 +72,7 @@
     </div>
 </div>
 
+</div>
 <div th:insert="blocks/bottom :: scripts"></div>
 </body>
 </html>

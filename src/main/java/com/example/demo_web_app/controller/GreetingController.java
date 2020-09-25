@@ -8,15 +8,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Controller
 public class GreetingController {
@@ -51,32 +58,47 @@ public class GreetingController {
 
     @PostMapping("/main")
     public String add(@AuthenticationPrincipal User user,
-                      @RequestParam String text,
-                      @RequestParam String tag,
                       @RequestParam("file") MultipartFile file,
+                      @ModelAttribute @Valid Message message,
+                      BindingResult bindingResult,
                       Model model) throws IOException {
 
-        Message message = new Message(text,tag,user);
+            message.setAuthor(user);
+            // validation of message fields
+            if (bindingResult.hasErrors() || file.isEmpty()){
+                System.out.println("some errors happened...");
+                Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+                // put the map of errors into model to show them if needed
+                model.mergeAttributes(errorsMap);
+                // put entered message
+                model.addAttribute("message",message);
+                // validation of file input
+                if(file.isEmpty()){
+                    model.addAttribute("fileNotFound","Please choose the file");
+                }
+            }else {
+                if (file != null && !file.getOriginalFilename().isEmpty()) {
+                    File uploadDir = new File(uploadPath);
 
-        if (file!=null && !file.getOriginalFilename().isEmpty()){
-            File uploadDir = new File(uploadPath);
-
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
+                    if (!uploadDir.exists()) {
+                        uploadDir.mkdir();
+                    }
+                    String uuidFile = UUID.randomUUID().toString();
+                    String resultFilename = uuidFile + "." + file.getOriginalFilename();
+                    file.transferTo(new File(uploadPath + "/" + resultFilename));
+                    message.setFilename(resultFilename);
+                }
+                model.addAttribute("message",null);
+                messageRepository.save(message);
             }
 
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFilename = uuidFile + "." + file.getOriginalFilename();
-
-            file.transferTo(new File(uploadPath + "/" + resultFilename));
-
-            message.setFilename(resultFilename);
-        }
-
-        messageRepository.save(message);
+            // put all messages into model to show them on main page
         Iterable<Message> messages = messageRepository.findAll();
         model.addAttribute("messages",messages);
+
         return "main";
     }
+
+
 
 }
