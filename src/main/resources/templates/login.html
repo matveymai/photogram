@@ -6,11 +6,13 @@
 <header th:insert="blocks/navbar :: navbar"></header>
 <div class="container mt-5">
 
-    <h4 th:text="${message}"></h4>
+    <div th:if="${message}" th:text="${message}"
+         th:class="'alert alert-' + ${successType}" role="alert">
+    </div>
 
     <div class="alert alert-danger" role="alert"
-             th:if="${session} and ${session.SPRING_SECURITY_LAST_EXCEPTION}">
-            Bad credentials!
+         th:if="${session.SPRING_SECURITY_LAST_EXCEPTION} and ${session}">
+                        Bad credentials!
     </div>
 
 <form action="/login" method="post">

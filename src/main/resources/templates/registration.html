@@ -51,6 +51,11 @@
             </div>
         </div>
     </div>
+        <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+    <br>
+            <div class="alert alert-danger" role="alert"
+                 th:if="${captchaError}" th:text="${captchaError}">
+            </div>
     <button type="submit" class="btn btn-primary">Create</button>
 </form>
 
