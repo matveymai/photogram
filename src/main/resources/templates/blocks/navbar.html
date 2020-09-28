@@ -13,6 +13,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/main">Messages</a>
                 </li>
+
+                <li class="nav-item" sec:authorize="isAuthenticated()"
+                    th:with="user_id=${session.SPRING_SECURITY_CONTEXT.authentication.principal.getId()}">
+                    <a class="nav-link" th:href="'/messages/' + ${user_id}">My messages</a>
+                </li>
+
 <!--                ссылка видна только пользователю-->
                 <li class="nav-item" sec:authorize="hasAuthority('USER')">
                     <a class="nav-link" href="/user/profile" >Profile</a>

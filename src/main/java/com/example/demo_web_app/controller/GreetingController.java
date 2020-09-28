@@ -3,6 +3,7 @@ package com.example.demo_web_app.controller;
 import com.example.demo_web_app.model.Message;
 import com.example.demo_web_app.model.User;
 import com.example.demo_web_app.repos.MessageRepository;
+import com.example.demo_web_app.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,10 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -21,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -30,6 +29,9 @@ public class GreetingController {
 
     @Autowired
     private MessageRepository messageRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Value(value = "${upload.path}")
     private String uploadPath;
@@ -99,6 +101,14 @@ public class GreetingController {
         return "main";
     }
 
+    @GetMapping("/messages/{id}")
+    public String userMessages(@AuthenticationPrincipal User user,
+                               @PathVariable Long id,
+                               Model model){
 
+        Set<Message> messages = userRepository.findById(id).get().getMessages();
+        model.addAttribute("messages",messages);
+        return "userMessages";
 
+    }
 }
