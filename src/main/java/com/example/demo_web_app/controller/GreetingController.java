@@ -102,13 +102,20 @@ public class GreetingController {
     }
 
     @GetMapping("/messages/{id}")
-    public String userMessages(@AuthenticationPrincipal User user,
+    public String userMessages(@AuthenticationPrincipal User currentUser,
                                @PathVariable Long id,
                                Model model){
 
-        Set<Message> messages = userRepository.findById(id).get().getMessages();
-        model.addAttribute("messages",messages);
-        return "userMessages";
+        if (userRepository.findById(id).isPresent()){
+        User user = userRepository.findById(id).get();
+        Set<Message> messages = user.getMessages();
 
+        model.addAttribute("messages",messages);
+        model.addAttribute("isCurrentUser",user.equals(currentUser));
+        model.addAttribute("user",user);
+        }else {
+            return "redirect:/main";
+        }
+        return "userMessages";
     }
 }

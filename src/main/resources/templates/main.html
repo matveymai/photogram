@@ -63,11 +63,11 @@
             <img class="card-img-top" th:src="'/img/' + ${el.filename}">
         </div>
         <div class="m-2">
-            <span th:text="${el.text}"/>
-            <i th:text="${el.tag}"/>
+            <span th:text="${el.text}"/><br>
+            <i th:text="'#' + ${el.tag}"/>
         </div>
-        <div class="card-footer text-muted">
-            <p th:text="${el.author.getUsername()}"/>
+        <div class="card-footer text-muted text-center">
+            <a th:href="'/messages/' + ${el.author.getId()}">[[${el.author.getUsername()}]]</a>
         </div>
     </div>
 </div>
